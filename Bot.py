@@ -47,4 +47,4 @@ async def on_message(message)
 
 
 #https://discordapp.com/oauth2/authorize?client_id=205653889624571905&scope=bot&permissions=0
-client.run('MjA1NjUzOTg1NDkzNzc4NDMy.CnN9IQ.L7wfHfSwLC2XQhEEi5DMlt7898I')
+client.run('Token')
