@@ -19,6 +19,10 @@ Discord bot for random stuff
     <td>bork</td>
     <td>Posts a random bork video</td>
   </tr>
+  <tr>
+    <td>help</td>
+    <td>Posts this</td>
+  </tr>
 </table>
 
 #Meme Commands
