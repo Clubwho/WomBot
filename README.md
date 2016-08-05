@@ -1,6 +1,26 @@
 # WomBot
 Discord bot for random stuff
 
+#Commands
+<table>
+  <tr>
+    <th>Commands (all start w/ &amp;)</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>meme</td>
+    <td>Use &amp;meme help to view all memes</td>
+  </tr>
+  <tr>
+    <td>translate</td>
+    <td>Translates things into english</td>
+  </tr>
+  <tr>
+    <td>bork</td>
+    <td>Posts a random bork video</td>
+  </tr>
+</table>
+
 #Meme Commands
 <table>
   <tr>
