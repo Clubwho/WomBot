@@ -8,7 +8,7 @@ class Utilities():
 
         # Setup translate commands
         gs = goslate.Goslate()
-        translator = Translator('WomBot', 'CQ9gw+TgF1ATumSQWp896QFM04DLZs9Hh0CI/WK9cBY=')
+        translator = Translator('WomBot', 'Token')
 
         # Translates a language into english
         @bot.command(pass_context=True)
