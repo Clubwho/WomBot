@@ -65,7 +65,7 @@ class Memes():
         try:
             if message.author.id == '132111332752359424':
                 if memename in memelist['MemeList']:
-                    await self.bot.say('**{}** already exists!'.format(ctx))
+                    await self.bot.say('**{}** already exists!'.format(memename))
                 else:
                     memelist['MemeList'][memename] = memeurl
                     with open('MemeList.json', 'w') as a:
