@@ -28,15 +28,8 @@ Memes:
   help        Posts this```
 """
 
-#Meme2 list
-memelist = ['http://i.imgur.com/SdM4EME.png', 'http://i.imgur.com/Mj2iT9d.gif',
-            '( ͡° ͜ʖ ͡° )', 'https://www.youtube.com/watch?v=tuCi9_dfntg&index=34&list=WL',
-            'https://www.youtube.com/watch?v=mZ3Ihas3ouw', 'https://www.youtube.com/watch?v=WPMDCJrRpT8',
-            'https://www.youtube.com/watch?v=4kOX-qE6Ka4', 'https://www.youtube.com/watch?v=4om1rQKPijI',
-            'https://www.youtube.com/watch?v=vTIIMJ9tUc8']
-
 with open('MemeList.json') as json_data:
-    memelistj = json.load(json_data)
+    memelist = json.load(json_data)
 
 class Memes():
     def __init__(self, bot):
@@ -51,34 +44,9 @@ class Memes():
         ctx = ctx.message.content[len(ctx.message.content.split(" ")[0]) + 1:]
         print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         try:
-            if ctx == 'yee':
-                await self.bot.say(memelist[0])
-            elif ctx == 'wow' or ctx == 'wew':
-                await self.bot.say(memelist[1])
-            elif ctx == 'lenny':
-                await self.bot.say(memelist[2])
-            elif ctx == 'keem':
-                await self.bot.say(memelist[3])
-            elif ctx == 'straya':
-                await self.bot.say(memelist[4])
-            elif ctx == 'attackheli':
-                await self.bot.say(memelist[5])
-            elif ctx == 'song':
-                await self.bot.say(memelist[6])
-            elif ctx == 'wtf finland':
-                await self.bot.say(memelist[7])
-            elif ctx == 'tunak':
-                await self.bot.say(memelist[8])
-            elif ctx == 'help':
-                await self.bot.say(memehelp)
-            elif ctx == 'test':
-                await self.bot.say(memelistj['yee'])
-            elif ctx == 'nummemes':
-                await self.bot.say('There are **{}** memes I can say.'.format(len(memelist)))
-            else:
-                await self.bot.say('That isn\'t a meme I know! Use **&meme help** to see all the memes I can say.')
+            await self.bot.say(memelist['MemeList'][ctx])
         except:
-            print(sys.exc_info()[0])
+            await self.bot.say("That isn't a meme I know! **Use &meme help** to see all the memes I can say.")
 
     # Posts a random bork video from borkoptions
     @commands.command()
@@ -90,30 +58,32 @@ class Memes():
 
     #Meme testing
     @commands.command(pass_context=True, hidden=True)
-    async def addmeme(self, ctx):
+    async def addmeme(self, ctx, memename : str, memeurl : str):
         message = ctx.message
         ctx = ctx.message.content[len(ctx.message.content.split(" ")[0]) + 1:]
         print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         try:
             if message.author.id == '132111332752359424':
-                if ctx in memelist:
+                if memename in memelist['MemeList']:
                     await self.bot.say('**{}** already exists!'.format(ctx))
                 else:
-                    memelist.append(ctx)
-                    await self.bot.say('Added **{}**'.format(ctx))
+                    memelist['MemeList'][memename] = memeurl
+                    with open('MemeList.json', 'w') as a:
+                        a.write(json.dumps(memelist))
+                    await self.bot.say('Added **{}**'.format(memename))
             else:
                 await self.bot.say('Only @Clubwho can add memes')
-        except:
-            return
+        except Exception as e:
+            print (e)
 
     @commands.command(pass_context=True, hidden=True)
-    async def removememe(self, ctx):
+    async def removememe(self, ctx, memename : str):
         message = ctx.message
         ctx = ctx.message.content[len(ctx.message.content.split(" ")[0]) + 1:]
         print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         try:
             if message.author.id == '132111332752359424':
-                if ctx in memelist:
+                if memename in memelist['MemeList']:
                     del memelist[ctx]
                     await self.bot.say('Removed **{}**'.format(ctx))
                 else:
