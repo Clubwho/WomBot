@@ -1,5 +1,7 @@
 #HUGE Help from Caleb <3
 
+import sys
+import json
 import random
 from discord.ext import commands
 
@@ -32,6 +34,9 @@ memelist = ['http://i.imgur.com/SdM4EME.png', 'http://i.imgur.com/Mj2iT9d.gif',
             'https://www.youtube.com/watch?v=mZ3Ihas3ouw', 'https://www.youtube.com/watch?v=WPMDCJrRpT8',
             'https://www.youtube.com/watch?v=4kOX-qE6Ka4', 'https://www.youtube.com/watch?v=4om1rQKPijI',
             'https://www.youtube.com/watch?v=vTIIMJ9tUc8']
+
+with open('MemeList.json') as json_data:
+    memelistj = json.load(json_data)
 
 class Memes():
     def __init__(self, bot):
@@ -67,13 +72,13 @@ class Memes():
             elif ctx == 'help':
                 await self.bot.say(memehelp)
             elif ctx == 'test':
-                await self.bot.say(memelist[-1])
+                await self.bot.say(memelistj['yee'])
             elif ctx == 'nummemes':
                 await self.bot.say('There are **{}** memes I can say.'.format(len(memelist)))
             else:
                 await self.bot.say('That isn\'t a meme I know! Use **&meme help** to see all the memes I can say.')
         except:
-            await self.bot.say('Bit of a fuck up here')
+            print(sys.exc_info()[0])
 
     # Posts a random bork video from borkoptions
     @commands.command()
