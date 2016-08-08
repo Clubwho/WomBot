@@ -84,10 +84,12 @@ class Memes():
         try:
             if message.author.id == '132111332752359424':
                 if memename in memelist['MemeList']:
-                    del memelist[ctx]
-                    await self.bot.say('Removed **{}**'.format(ctx))
+                    del memelist['MemeList'][memename]
+                    with open('MemeList.json', 'w') as a:
+                        a.write(json.dumps(memelist))
+                    await self.bot.say('Removed **{}**'.format(memename))
                 else:
-                    await self.bot.say('**{}** isn\'t a meme'.format(ctx))
+                    await self.bot.say('**{}** isn\'t a meme'.format(memename))
             else:
                 await self.bot.say('Only @Clubwho can remove memes')
         except:
