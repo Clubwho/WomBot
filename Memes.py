@@ -35,7 +35,7 @@ class Memes():
             except:
                 await self.bot.say("That isn't a meme I know! **Use &meme help** to see all the memes I can say.")
 
-    # Meme testing
+    # Add a meme
     @commands.command(pass_context=True, hidden=True)
     async def addmeme(self, ctx, memename: str, memeurl: str):
         message = ctx.message
@@ -46,14 +46,23 @@ class Memes():
                 if memename in jsonlist['MemeList']:
                     await self.bot.say('**{}** already exists!'.format(ctx))
                 else:
+                    if memename in jsonlist['MemeSuggest']:
+                        del jsonlist['MemeSuggest'][memename]
                     jsonlist['MemeList'][memename] = memeurl
                     with open('Lists.json', 'w') as a:
                         a.write(json.dumps(jsonlist, indent=4))
                     await self.bot.say('Added **{}**'.format(memename))
             else:
-                await self.bot.say('Only Clubwho can add memes')#.format(discord.Object(132111332752359424).mention)
-        except Exception as e:
-            print(e)
+                if memename in jsonlist['MemeList']:
+                    await self.bot.say('**{}** already exists!'.format(ctx))
+                else:
+                    jsonlist['MemeSuggest'][memename] = memeurl
+                    with open('Lists.json', 'w') as a:
+                        a.write(json.dumps(jsonlist, indent=4))
+                    await self.bot.say('Suggested **{}**, you will have to wait for Clubwho to add it.'.format(memename))
+        except:
+            await self.bot.say('**Did you miss the name or url?**')
+
 
     @commands.command(pass_context=True, hidden=True)
     async def removememe(self, ctx, memename: str):
