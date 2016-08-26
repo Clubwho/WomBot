@@ -1,6 +1,3 @@
-# HUGE Help from Caleb <3
-
-import discord
 import json
 import random
 import re
@@ -21,14 +18,18 @@ class Memes():
 
         message = ctx.message
         ctx = ctx.message.content.split(' ', 2)[1]
-        print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         if ctx == 'help':
             memelistsort = sorted(jsonlist['MemeList'].keys())
             memeliststring = str(memelistsort)
             memehelp = re.sub("[\[\]']", "", memeliststring)
             await self.bot.say("I know: **{}**.".format(memehelp))
-        elif ctx =='nummemes':
+        elif ctx == 'nummemes':
             await self.bot.say('I know **{}** memes!'.format(len(jsonlist['MemeList'])))
+        elif ctx == 'suggest':
+            memesuggestsort = sorted(jsonlist['MemeSuggest'].keys())
+            memesuggeststring = str(memesuggestsort)
+            memesuggest = re.sub("[\[\]']", "", memesuggeststring)
+            await self.bot.say("I know: **{}**.".format(memesuggest))
         else:
             try:
                 await self.bot.say(jsonlist['MemeList'][ctx])
@@ -40,7 +41,6 @@ class Memes():
     async def addmeme(self, ctx, memename: str, memeurl: str):
         message = ctx.message
         ctx = ctx.message.content.split(' ', 2)[1]
-        print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         try:
             if message.author.id == '132111332752359424':
                 if memename in jsonlist['MemeList']:
@@ -65,23 +65,40 @@ class Memes():
 
 
     @commands.command(pass_context=True, hidden=True)
-    async def removememe(self, ctx, memename: str):
+    async def delsuggest(self, ctx, memename: str):
         message = ctx.message
         ctx = ctx.message.content.split(' ', 2)[1]
-        print(message.author.name + "@" + message.server.name + "~" + message.channel.name + ": " + message.content)
         try:
             if message.author.id == '132111332752359424':
-                if memename in jsonlist['MemeList']:
-                    del jsonlist['MemeList'][memename]
+                if memename in jsonlist['MemeSuggest']:
+                    del jsonlist['MemeSuggest'][memename]
                     with open('Lists.json', 'w') as a:
                         a.write(json.dumps(jsonlist, indent=4))
                     await self.bot.say('Removed **{}**'.format(memename))
                 else:
-                    await self.bot.say('**{}** isn\'t a meme'.format(memename))
+                    await self.bot.say('**{}** isn\'t a suggested meme'.format(memename))
             else:
-                await self.bot.say('Only Clubwho can remove memes')
+                await self.bot.say('Only Clubwho can remove suggested memes')
         except:
             return
+
+        @commands.command(pass_context=True, hidden=True)
+        async def removememe(self, ctx, memename: str):
+            message = ctx.message
+            ctx = ctx.message.content.split(' ', 2)[1]
+            try:
+                if message.author.id == '132111332752359424':
+                    if memename in jsonlist['MemeList']:
+                        del jsonlist['MemeList'][memename]
+                        with open('Lists.json', 'w') as a:
+                            a.write(json.dumps(jsonlist, indent=4))
+                        await self.bot.say('Removed **{}**'.format(memename))
+                    else:
+                        await self.bot.say('**{}** isn\'t a meme'.format(memename))
+                else:
+                    await self.bot.say('Only Clubwho can remove memes')
+            except:
+                return
 
     # Posts a random bork video
     @commands.group(pass_context=True)
